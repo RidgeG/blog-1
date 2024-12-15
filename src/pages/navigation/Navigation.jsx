@@ -1,13 +1,16 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './Navigation.css'
+
 
 
 
 function Navigation  ()  {
+
+
     return (
-        <nav className="navigation">
-            <img src="/./src/assets/logo-medium.png" alt="logo" className="navigationLogo"/>
+        <nav>
+
+
             <ul>
                 <li>
                     <NavLink

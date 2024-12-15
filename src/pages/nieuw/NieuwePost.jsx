@@ -6,7 +6,7 @@ function NieuwePost  ({ onPostSubmit })  {
 
     function handleChange  (event)  {
         setPostContent(event.target.value);
-    };
+    }
 
     function handleSubmit  (event)  {
         event.preventDefault();
