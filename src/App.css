@@ -11,6 +11,16 @@
     align-items: center;
 }
 
+
+
 .page-container img {
     width: 500px;
+}
+
+.active-menu-link {
+    border-bottom: none;
+}
+
+.default-menu-link {
+    border-bottom: 1px solid black;
 }
