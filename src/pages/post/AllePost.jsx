@@ -8,10 +8,9 @@ export default function Overview() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const API_URL = 'http://localhost:3000/posts';
 
     useEffect(() => {
-        axios.get(API_URL)
+        axios.get('http://localhost:3000/posts')
             .then((response) => {
                 setPosts(response.data);
             })
@@ -58,7 +57,7 @@ export default function Overview() {
             <ul>
                 {posts.map((post) => (
                     <li key={post.id}>
-                        <Link to={`/blog/${post.id}`} className="post-link">
+                        <Link to={`/posts/${post.id}`} className="post-link">
                             {post.title}
                         </Link> ({post.author})
                         <p>{post.comments} reacties - {post.shares} keer gedeeld</p>
