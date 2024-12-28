@@ -1,11 +1,19 @@
-import React from 'react';
+import './NotFound.css';
+import {useNavigate} from 'react-router-dom';
 
 function NotFound() {
+    const navigate = useNavigate();
+
     return (
-        <div>
-            <h1>404 - Pagina niet gevonden</h1>
-            <p>De pagina die je zoekt bestaat niet.</p>
-        </div>
+        <section className="not-found-section outer-content-container">
+            <div className="inner-content-container">
+                <h1>404</h1>
+                <h2>De pagina waar je naar zoekt bestaat niet</h2>
+                <span>
+                    <button type="button" onClick={() => navigate('/')}>Terug naar home</button>
+                </span>
+            </div>
+        </section>
     );
 }
 

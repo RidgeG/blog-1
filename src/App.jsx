@@ -1,42 +1,49 @@
-import './App.css';
-import React from 'react';
-import HomePage from './pages/homepage/Homepage.jsx';
-import allePost from './pages/post/allePost.jsx';
-import NieuwePost from './pages/nieuw/NieuwePost.jsx';
+import {Link, NavLink, Route, Routes, useNavigate} from 'react-router-dom';
+import Home from './pages/homePage/Homepage.jsx';
+import NewPost from './pages/nieuw/NieuwePost.jsx';
+import Overview from './pages/post/AllePost.jsx';
+import PostDetail from './pages/postDetail/PostDetail.jsx';
+import logoMedium from './assets/logo-medium.png'
+import './App.css'
 import NotFound from './pages/404/NotFound.jsx';
-import Navigation from './pages/navigation/Navigation.jsx';
-import{ Route, Routes, useNavigate} from 'react-router-dom';
-import logo from './assets/logo-white.png';
 
 function App() {
     const navigate = useNavigate();
 
-    function handlePostSubmit () {
-        navigate('/allePost');
-    }
-
-
-
     return (
-        <div>
-
-            <Navigation/>
-            <Routes>
-                <Route path="/" element={<HomePage/>}/>
-                <Route path="/allePost" element={<allePost/>}/>
-                <Route path="/nieuwePost" element={<nieuwePost/>}/>
-                <Route path="*" element={<NotFound/>}/>
-            </Routes>
-
-
-
-            <div className="page-container">
-                <img src={logo} alt="Company logo"/>
-                <h1>Begin hier met het maken van jouw blog-applicatie!</h1>
-            </div>
-        </div>
-
-    );
+        <>
+            <nav className="main-navigation outer-content-container">
+                <div className="inner-nav-container">
+                    <button type="button" className="main-navigation-logo-button" onClick={() => navigate('/')}>
+                        <img src={logoMedium} alt="Logo that links to home page"/>
+                    </button>
+                    <ul className="main-navigation-links">
+                        <li>
+                            <NavLink className={({ isActive }) => isActive ? "active-link" : "default-link"} to="/">Home</NavLink>
+                        </li>
+                        <li>
+                            <NavLink className={({ isActive }) => isActive ? "active-link" : "default-link"} to="/posts">Alle posts</NavLink>
+                        </li>
+                        <li>
+                            <NavLink className={({ isActive }) => isActive ? "active-link" : "default-link"} to="/new">Nieuwe post maken</NavLink>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <main>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/new" element={<NewPost />} />
+                    <Route path="/posts" element={<Overview />} />
+                    <Route path="/posts/:id" element={<PostDetail />} />
+                    <Route path="*" element={<NotFound/>}/>
+                </Routes>
+            </main>
+            <footer className="footer-navigation outer-content-container">
+                Blogventure &copy; 2023 - ontwikkeld voor NOVI Hogeschool
+            </footer>
+        </>
+    )
 }
 
-export default App;
+export default App
