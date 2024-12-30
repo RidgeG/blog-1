@@ -2,6 +2,7 @@ import './NieuwePost.css';
 import {useState} from 'react';
 import calculateReadTime from '../../helpers/calculateReadTime.js';
 import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 function NewPost() {
     const [formState, setFormState] = useState({
@@ -11,6 +12,9 @@ function NewPost() {
         content: '',
     });
 
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(false);
+    const [newPostId, setNewPostId] = useState(null)
     const navigate = useNavigate();
 
     function handleChange(e) {
@@ -20,26 +24,52 @@ function NewPost() {
         })
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
+        setError(null);
 
-        console.log({
+        const newPost = {
             ...formState,
             shares: 0,
             comments: 0,
             created: new Date().toISOString(),
             readTime: calculateReadTime(formState.content),
-        });
+        };
 
-        console.log('De blog is succesvol verzameld! 🌈');
-        // navigate('/posts');
+        try {
+            const response = await axios.post('http://localhost:3000/posts', newPost);
+            if (response.status === 201) {
+                setSuccess(true);
+                setNewPostId(response.data.id);
+
+                setTimeout(() => navigate(`/posts/${newPostId}`), 3000);
+            }
+        } catch (error) {
+            setError('Er is iets mis gegaan met het plaatsen van de nieuwe blogpost, probeer het later opnieuw.');
+
+        }
+        if (success) {
+            return (
+                <section className="new-post-section outer-content-container">
+                    <div className="inner-content-container__text-restriction">
+                        <h1>Gelukt!</h1>
+                        <p>De blogpost is succesvol toegevoegd. Je kunt deze <a href={`/posts/${newPostId}`}>hier</a> bekijken.</p>
+                    </div>
+                </section>
+            );
+        }
+
     }
+
+
 
     return (
         <section className="new-post-section outer-content-container">
             <div className="inner-content-container__text-restriction">
                 <form className="new-post-form" onSubmit={handleSubmit}>
                     <h1>Post toevoegen</h1>
+                    {error && <p className="error-message">{error}</p>}
+
                     <label htmlFor="post-title">Titel</label>
                     <input
                         type="text"
